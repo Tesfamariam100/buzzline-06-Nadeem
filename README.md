@@ -1,80 +1,65 @@
-📢 Buzzline 06 - Keyword Tracking & Visualization
-🚀 Real-time keyword tracking pipeline using Python & SQLite
-
-📌 Project Overview
-This project tracks keyword mentions from a live data stream, stores them in an SQLite database, and visualizes trends in real-time using Matplotlib. The pipeline consists of:
-
-🔵 Producer → Generates messages and writes them to project_live.jsonl
-🟢 Consumer → Reads messages, tracks keyword frequency, and updates a database
-📊 Visualization → Displays keyword trends in real-time
-📁 Project Structure
-bash
+🚀 Final README.md for Buzzline-06-Nadeem
+md
 Copy
 Edit
-buzzline-06-Nadeem/
-├── producers/
-│   ├── producer_keywords.py  # Generates and writes messages to file
-├── consumers/
-│   ├── consumer_keyword_tracker.py  # Reads messages, updates database
-│   ├── consumer_visualizer.py  # Plots real-time keyword trends
-├── utils/
-│   ├── utils_database.py  # Handles database operations
-│   ├── utils_visualizer.py  # Manages Matplotlib animations
-├── data/
-│   ├── project_live.jsonl  # Live data file
-│   ├── buzzline_data.db  # SQLite database
-├── .gitignore
-├── .env
-├── README.md  # You are here
-├── requirements.txt
-└── venv/
-⚙️ How to Run the Project
-🔹 1. Setup the Environment
-✅ Activate Virtual Environment
+# 📢 Buzzline 06 - Real-Time Keyword Tracking  
+🚀 **Streaming Data Pipeline using Python, SQLite & Matplotlib**  
 
-sh
+## **📌 Project Overview**  
+This project **tracks keyword mentions** in real-time from a live data stream, stores them in an SQLite database, and **visualizes keyword trends dynamically** using Matplotlib.  
+
+### **💡 How It Works**  
+1️⃣ **Producer** → Generates messages and writes them to `project_live.jsonl`  
+2️⃣ **Consumer** → Reads messages, extracts keywords, and tracks frequency in `buzzline_data.db`  
+3️⃣ **Visualizer** → Displays **real-time keyword trends** using an animated bar chart  
+
+---
+
+## **📁 Project Structure**  
+buzzline-06-Nadeem/ ├── producers/ │ ├── producer_keywords.py # Generates messages and writes to JSON ├── consumers/ │ ├── consumer_keyword_tracker.py # Reads and processes keyword mentions │ ├── consumer_visualizer.py # Displays real-time keyword trends ├── utils/ │ ├── utils_database.py # Database operations │ ├── utils_visualizer.py # Matplotlib animations ├── data/ │ ├── project_live.jsonl # Live streaming messages │ ├── buzzline_data.db # SQLite storage ├── .gitignore ├── .env ├── README.md ├── requirements.txt └── venv/
+
+yaml
 Copy
 Edit
+
+---
+
+## **⚙️ How to Run the Project**  
+
+### **1️⃣ Set Up the Environment**  
+Activate Virtual Environment  
+```sh
 venv\Scripts\activate  # Windows
 source venv/bin/activate  # Mac/Linux
-✅ Install Dependencies
+Install Dependencies
 
 sh
 Copy
 Edit
 pip install -r requirements.txt
-🔹 2. Start the Producer
+2️⃣ Start the Producer
 Generates and writes messages to data/project_live.jsonl.
 
 sh
 Copy
 Edit
 python producers/producer_keywords.py
-🔄 This will keep running and continuously generate messages.
-
-🔹 3. Start the Consumer
-Reads messages from project_live.jsonl, processes keyword mentions, and stores them in the SQLite database.
+3️⃣ Start the Consumer
+Reads messages from project_live.jsonl, processes keyword mentions, and updates buzzline_data.db.
 
 sh
 Copy
 Edit
 python consumers/consumer_keyword_tracker.py
-🔹 4. View the Keyword Trend Visualization
-Runs the visualization script to track keyword trends dynamically.
+4️⃣ View Real-Time Keyword Trends
+Runs the visualization script to track keyword mentions dynamically.
 
 sh
 Copy
 Edit
 python consumers/consumer_visualizer.py
-🛠️ Configuration & Environment Variables
-The project uses a .env file to store file paths.
-Example .env file:
+📸 Live Visualization Preview
 
-env
-Copy
-Edit
-LIVE_DATA_FILE=./data/project_live.jsonl
-DATABASE_FILE=./data/buzzline_data.db
 🔍 Sample Message Format
 json
 Copy
@@ -94,4 +79,3 @@ Edit
 ✅ Add alerting for high-frequency keywords
 
 📌 Created by Huzaifa Nadeem
-
