@@ -1,197 +1,97 @@
-# buzzline-05-case
+📢 Buzzline 06 - Keyword Tracking & Visualization
+🚀 Real-time keyword tracking pipeline using Python & SQLite
 
-Nearly every streaming analytics system stores processed data somewhere for further analysis, historical reference, or integration with BI tools.
+📌 Project Overview
+This project tracks keyword mentions from a live data stream, stores them in an SQLite database, and visualizes trends in real-time using Matplotlib. The pipeline consists of:
 
-In this example project, we incorporate a relational data store. 
-We use SQLite, but the example could be altered to work with MySQL, PostgreSQL, or MongoDB.
+🔵 Producer → Generates messages and writes them to project_live.jsonl
+🟢 Consumer → Reads messages, tracks keyword frequency, and updates a database
+📊 Visualization → Displays keyword trends in real-time
+📁 Project Structure
+bash
+Copy
+Edit
+buzzline-06-Nadeem/
+├── producers/
+│   ├── producer_keywords.py  # Generates and writes messages to file
+├── consumers/
+│   ├── consumer_keyword_tracker.py  # Reads messages, updates database
+│   ├── consumer_visualizer.py  # Plots real-time keyword trends
+├── utils/
+│   ├── utils_database.py  # Handles database operations
+│   ├── utils_visualizer.py  # Manages Matplotlib animations
+├── data/
+│   ├── project_live.jsonl  # Live data file
+│   ├── buzzline_data.db  # SQLite database
+├── .gitignore
+├── .env
+├── README.md  # You are here
+├── requirements.txt
+└── venv/
+⚙️ How to Run the Project
+🔹 1. Setup the Environment
+✅ Activate Virtual Environment
 
-## VS Code Extensions
+sh
+Copy
+Edit
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # Mac/Linux
+✅ Install Dependencies
 
-- Black Formatter by Microsoft
-- Markdown All in One by Yu Zhang
-- PowerShell by Microsoft (on Windows Machines)
-- Pylance by Microsoft
-- Python by Microsoft
-- Python Debugger by Microsoft
-- Ruff by Astral Software (Linter)
-- **SQLite Viewer by Florian Klampfer**
-- WSL by Microsoft (on Windows Machines)
+sh
+Copy
+Edit
+pip install -r requirements.txt
+🔹 2. Start the Producer
+Generates and writes messages to data/project_live.jsonl.
 
-## Task 1. Use Tools from Module 1 and 2
+sh
+Copy
+Edit
+python producers/producer_keywords.py
+🔄 This will keep running and continuously generate messages.
 
-Before starting, ensure you have completed the setup tasks in <https://github.com/denisecase/buzzline-01-case> and <https://github.com/denisecase/buzzline-02-case> first. 
+🔹 3. Start the Consumer
+Reads messages from project_live.jsonl, processes keyword mentions, and stores them in the SQLite database.
 
-Versions matter. Python 3.11 is required. See the instructions for the required Java JDK and more. 
+sh
+Copy
+Edit
+python consumers/consumer_keyword_tracker.py
+🔹 4. View the Keyword Trend Visualization
+Runs the visualization script to track keyword trends dynamically.
 
-## Task 2. Copy This Example Project and Rename
+sh
+Copy
+Edit
+python consumers/consumer_visualizer.py
+🛠️ Configuration & Environment Variables
+The project uses a .env file to store file paths.
+Example .env file:
 
-Once the tools are installed, copy/fork this project into your GitHub account
-and create your own version of this project to run and experiment with. 
-Follow the instructions in [FORK-THIS-REPO.md](https://github.com/denisecase/buzzline-01-case/docs/FORK-THIS-REPO.md).
+env
+Copy
+Edit
+LIVE_DATA_FILE=./data/project_live.jsonl
+DATABASE_FILE=./data/buzzline_data.db
+🔍 Sample Message Format
+json
+Copy
+Edit
+{
+    "message": "I just learned Python! It's amazing.",
+    "author": "Alice",
+    "timestamp": "2025-02-20 14:35:20",
+    "category": "tech",
+    "sentiment": 0.85,
+    "keyword_mentioned": "Python",
+    "message_length": 42
+}
+🚀 Next Steps
+✅ Optimize message processing
+✅ Improve visualization animations
+✅ Add alerting for high-frequency keywords
 
-OR: For more practice, add these example scripts or features to your earlier project. 
-You'll want to check requirements.txt, .env, and the consumers, producers, and util folders. 
-Use your README.md to record your workflow and commands. 
-    
+📌 Created by Huzaifa Nadeem
 
-## Task 3. Manage Local Project Virtual Environment
-
-Follow the instructions in [MANAGE-VENV.md](https://github.com/denisecase/buzzline-01-case/docs/MANAGE-VENV.md) to:
-1. Create your .venv
-2. Activate .venv
-3. Install the required dependencies using requirements.txt.
-
-## Task 4. Start Zookeeper and Kafka (Takes 2 Terminals)
-
-If Zookeeper and Kafka are not already running, you'll need to restart them.
-See instructions at [SETUP-KAFKA.md] to:
-
-1. Start Zookeeper Service ([link](https://github.com/denisecase/buzzline-02-case/blob/main/docs/SETUP-KAFKA.md#step-7-start-zookeeper-service-terminal-1))
-2. Start Kafka Service ([link](https://github.com/denisecase/buzzline-02-case/blob/main/docs/SETUP-KAFKA.md#step-8-start-kafka-terminal-2))
-
----
-
-## Task 5. Start a New Streaming Application
-
-This will take two more terminals:
-
-1. One to run the producer which writes messages. 
-2. Another to run the consumer which reads messages, processes them, and writes them to a data store. 
-
-### Producer (Terminal 3) 
-
-Start the producer to generate the messages. 
-The existing producer writes messages to a live data file in the data folder.
-If Zookeeper and Kafka services are running, it will try to write them to a Kafka topic as well.
-For configuration details, see the .env file. 
-
-In VS Code, open a NEW terminal.
-Use the commands below to activate .venv, and start the producer. 
-
-Windows:
-
-```shell
-.venv\Scripts\activate
-py -m producers.producer_case
-```
-
-Mac/Linux:
-```zsh
-source .venv/bin/activate
-python3 -m producers.producer_case
-```
-
-The producer will still work if Kafka is not available.
-
-### Consumer (Terminal 4) - Two Options
-
-Start an associated consumer. 
-You have two options. 
-1. Start the consumer that reads from the live data file.
-2. OR Start the consumer that reads from the Kafka topic.
-
-In VS Code, open a NEW terminal in your root project folder. 
-Use the commands below to activate .venv, and start the consumer. 
-
-Windows:
-```shell
-.venv\Scripts\activate
-py -m consumers.kafka_consumer_case
-OR
-py -m consumers.file_consumer_case
-```
-
-Mac/Linux:
-```zsh
-source .venv/bin/activate
-python3 -m consumers.kafka_consumer_case
-OR
-python3 -m consumers.file_consumer_case
-```
-
----
-
-## Review the Project Code
-
-Review the requirements.txt file. 
-- What - if any - new requirements do we need for this project?
-- Note that requirements.txt now lists both kafka-python and six. 
-- What are some common dependencies as we incorporate data stores into our streaming pipelines?
-
-Review the .env file with the environment variables.
-- Why is it helpful to put some settings in a text file?
-- As we add database access and passwords, we start to keep two versions: 
-   - .evn 
-   - .env.example
- - Read the notes in those files - which one is typically NOT added to source control?
- - How do we ignore a file so it doesn't get published in GitHub (hint: .gitignore)
-
-Review the .gitignore file.
-- What new entry has been added?
-
-Review the code for the producer and the two consumers.
- - Understand how the information is generated by the producer.
- - Understand how the different consumers read, process, and store information in a data store?
-
-Compare the consumer that reads from a live data file and the consumer that reads from a Kafka topic.
-- Which functions are the same for both?
-- Which parts are different?
-
-What files are in the utils folder? 
-- Why bother breaking functions out into utility modules?
-- Would similar streaming projects be likely to take advantage of any of these files?
-
-What files are in the producers folder?
-- How do these compare to earlier projects?
-- What has been changed?
-- What has stayed the same?
-
-What files are in the consumers folder?
-- This is where the processing and storage takes place.
-- Why did we make a separate file for reading from the live data file vs reading from the Kafka file?
-- What functions are in each? 
-- Are any of the functions duplicated? 
-- Can you refactor the project so we could write a duplicated function just once and reuse it? 
-- What functions are in the sqlite script?
-- What functions might be needed to initialize a different kind of data store?
-- What functions might be needed to insert a message into a different kind of data store?
-
----
-
-## Explorations
-
-- Did you run the kafka consumer or the live file consumer? Why?
-- Can you use the examples to add a database to your own streaming applications? 
-- What parts are most interesting to you?
-- What parts are most challenging? 
-
----
-
-## Later Work Sessions
-When resuming work on this project:
-1. Open the folder in VS Code. 
-2. Open a terminal and start the Zookeeper service. If Windows, remember to start wsl. 
-3. Open a terminal and start the Kafka service. If Windows, remember to start wsl. 
-4. Open a terminal to start the producer. Remember to activate your local project virtual environment (.env).
-5. Open a terminal to start the consumer. Remember to activate your local project virtual environment (.env).
-
-## Save Space
-To save disk space, you can delete the .venv folder when not actively working on this project.
-You can always recreate it, activate it, and reinstall the necessary packages later. 
-Managing Python virtual environments is a valuable skill. 
-
-## License
-This project is licensed under the MIT License as an example project. 
-You are encouraged to fork, copy, explore, and modify the code as you like. 
-See the [LICENSE](LICENSE.txt) file for more.
-
-
-# Run the producer first
-python producers/producer_case.py
-
-# Run the custom consumer
-python consumers/consumer_huzaifa.py
-
-My custom consumer, `consumer_huzaifa.py`, is designed to track keyword mentions in real-time from the live data stream. It reads messages from `live_data.jsonl`, extracts the `keyword_mentioned` field, and updates a SQLite database (`buzzline_data.db`) to keep a count of how often each keyword appears. This allows for trend analysis over time, helping to identify the most frequently discussed topics in the dataset. By storing keyword mentions alongside timestamps, this consumer provides insights into evolving discussions and potential viral trends. The decision to use SQLite ensures structured storage and easy querying, making it a lightweight yet effective solution for tracking keyword trends in real time.
-
-Moving on to p6
