@@ -97,9 +97,9 @@ kafka-python-ng
 
 
 
-json
+
 pandas
-sqlite3
+
 matplotlib
 
 
